@@ -15,5 +15,6 @@ exports.roles = (function() {
     .readAny("vote")
     .updateAny("vote")
     .deleteAny("vote")
+    .readOwn("statistics")
   return ac;
 })();

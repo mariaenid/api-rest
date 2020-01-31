@@ -25,6 +25,6 @@ router.delete('/vote/:voteId', userController.allowIfLoggedin, userController.gr
 
 router.post('/vote', userController.allowIfLoggedin, voteController.vote);
 
-router.get('/statistics', userController.allowIfLoggedin, userController.grantAccess('readAny', 'vote'), voteController.statistic);
+router.get('/statistics', userController.allowIfLoggedin, userController.grantAccess('readOwn', 'statistics'), voteController.statistic);
 
 module.exports = router;
