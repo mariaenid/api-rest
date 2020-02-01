@@ -1,0 +1,349 @@
+openapi: 3.0.1
+servers:
+  - url: '/'
+    variables:
+      scheme:
+        default: 'http'
+info:
+  description: Vote API Rest
+  version: 1.0.0
+  title: Api Rest
+  contact:
+    name: developer
+    email: developer@gmail.com
+
+paths:
+  /users/:
+    get:
+      summary: Get users
+      responses:
+        '200':
+          description: Returns a list of data sets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userList'
+              example:
+                {
+                  "data": [
+                    {
+                      "role": "admin",
+                      "_id": "5e3380d379d3d9c3cfa1a905",
+                      "email": "admin@gmail.com",
+                      "password": "$2b$10$AuXKQw7zuw.HNBeN4JhuP.bm1i00uuJ9Hn7BmyM5lVQUgrRptYWne",
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTMzODBkMzc5ZDNkOWMzY2ZhMWE5MDUiLCJpYXQiOjE1ODA0MzM4OTUsImV4cCI6MTU4MDUyMDI5NX0.sYXPRvJprlJkZaOg0kwwackb16ZOvuv15vT1IALML18",
+                      "__v": 0
+                    },
+                    {
+                      "role": "employee",
+                      "_id": "5e339c04ebf21cc68a64ec16",
+                      "email": "employer1@gmail.com",
+                      "password": "$2b$10$g9BZksdoH09yOY1y9CEyDuWylVOki8P2NUluLfMA4SGBUv4GUJ.7i",
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTMzOWMwNGViZjIxY2M2OGE2NGVjMTYiLCJpYXQiOjE1ODA0NDA1ODAsImV4cCI6MTU4MDUyNjk4MH0.SE6Rz7XLRnvXhk-IRmAoxI20DovOUbOF48vrGCxYJGQ",
+                      "__v": 0
+                    }
+                  ]
+                }
+  /user/:id:
+    get:
+      tags:
+        - metadata
+      summary: Get a user by Id
+      operationId: list-searchable-fields
+      parameters:
+        - name: id
+          in: query
+          description: 'user id'
+          required: true
+          example: "01233424"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a list of data sets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userSchema'
+              example:
+                {
+                  "total": 2,
+                  "apis": [
+                    {
+                      "apiKey": "oa_citations",
+                      "apiVersionNumber": "v1",
+                      "apiUrl": "https://developer.uspto.gov/ds-api/oa_citations/v1/fields",
+                      "apiDocumentationUrl": "https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/oa_citations.json"
+                    },
+                    {
+                      "apiKey": "cancer_moonshot",
+                      "apiVersionNumber": "v1",
+                      "apiUrl": "https://developer.uspto.gov/ds-api/cancer_moonshot/v1/fields",
+                      "apiDocumentationUrl": "https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/cancer_moonshot.json"
+                    }
+                  ]
+                }
+
+  /signup:
+    post:
+      tags:
+        - search
+      summary: >-
+        Add users
+      description: >-
+        Add user list
+      parameters:
+        - name: email
+          in: query
+          description: Version of the dataset.
+          required: true
+          schema:
+            type: string
+            default: testing@test.com
+        - name: password
+          in: query
+          description: 'Password'
+          required: true
+          schema:
+            type: string
+            default: 1234
+        - name: role
+          in: query
+          description: user role
+          required: true
+          schema:
+            type: string
+            enum: ['employee', 'admin']
+            default: employee
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userSchema'
+        '404':
+          description: Not Allowed
+
+  /login:
+    post:
+      tags:
+        - search
+      summary: >-
+        Add users
+      description: >-
+        Add user list
+      parameters:
+        - name: email
+          in: query
+          description: Version of the dataset.
+          required: true
+          schema:
+            type: string
+            default: testing@test.com
+        - name: password
+          in: query
+          description: 'Password'
+          required: true
+          schema:
+            type: string
+            default: 1234
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userSchema'
+        '404':
+          description: Not Allowed          
+
+  /vote:
+    post:
+      tags:
+        - vote 
+      summary: >-
+        Add a vote
+      description: >-
+        Add a vote 
+      parameters:
+        - name: voteUser
+          in: query
+          description: Version of the dataset.
+          required: true
+          schema:
+            type: string
+            default: testing@test.com
+        - name: votedUser
+          in: query
+          description: 'Password'
+          required: true
+          schema:
+            type: string
+            default: 1234
+        - name: area
+          in: query
+          description: user role
+          required: true
+          schema:
+            type: string
+            enum: [ "teamPlayer",
+                    "technicalReferent",
+                    "keyPlayer",
+                    "clientSatisfaction",
+                    "motivation",
+                    "fun"]
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/voteSchemaList'
+        '404':
+          description: Not Allowed
+  /vote/:id:
+    get:
+      tags:
+        - vote 
+      summary: >-
+        Add a vote
+      description: >-
+        Add a vote 
+      parameters:
+        - name: id
+          in: query
+          description: voteId
+          required: true
+          schema:
+            type: string
+            default: 0001
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/voteSchema'
+        '404':
+          description: Not Allowed    
+  
+  /statistics:
+    get:
+      tags:
+        - statistics
+      summary: >-
+        Details
+      description: >-
+        Statistics about votes
+      parameters:
+        - name: month
+          in: query
+          description: statistics
+          required: true
+          schema:
+            type: number
+            default: 1
+        - name: year
+          in: query
+          description: statistics
+          required: true
+          schema:
+            type: number
+            default: 2010
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/voteSchema'
+        '404':
+          description: Not Allowed        
+security:
+  - bearerAuth: []  
+  
+components:
+  securitySchemes:
+    bearerAuth:            
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    
+  schemas:
+    userList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: user id
+              email:
+                type: string
+                description: user email
+              password:
+                type: string
+                description: password account
+              accessToken:
+                type: string
+                description: access token
+    userSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            _id:
+              type: string
+              description: user id
+            email:
+              type: string
+              description: user email
+            password:
+              type: string
+              description: password account
+            accessToken:
+              type: string
+              description: access token 
+    voteSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            _id:
+              type: string
+              description: user id
+            voteUserId:
+              type: string
+              description: "002"
+            votedUserId:
+              type: string
+              description: "001"
+            area:
+              type: string
+              description: "teamLeader"
+    voteSchemaList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: user id
+              voteUserId:
+                type: string
+                description: "002"
+              votedUserId:
+                type: string
+                description: "001"
+              area:
+                type: string
+                description: "teamLeader"         
+          

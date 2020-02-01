@@ -26,3 +26,13 @@ POST `http://localhost:3000/signup` send like params `email, password, role: [ad
 
 #POST http://localhost:3000/vote params: {voteUser, votedUser, area}
 #the area can be: ["teamPlayer", "technicalReferent", "keyPlayer", "clientSatisfaction", "motivation", "fun"]
+
+# Swagger:
+
+`http://localhost:4000/api-docs/`
+
+#Start with signup
+
+#Add token
+
+# start to vote

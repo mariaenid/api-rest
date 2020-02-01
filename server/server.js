@@ -9,10 +9,12 @@ require("dotenv").config({
   path: path.join(__dirname, "../.env")
 });
 
+var jsyaml = require('js-yaml');
+var fs = require('fs');
+
 const app = express();
 
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 mongoose.connect('mongodb://localhost:27017/votos', { useNewUrlParser: true }).then(() => {
   console.log('Connected to the Database successfully')
@@ -41,6 +43,14 @@ app.use(async (req, res, next) => {
     next();
   }
 });
+//without swagger
+// app.use('/', routes);
+var spec = fs.readFileSync(path.join(__dirname,'./app.yaml'), 'utf8');
+
+var swaggerUi = require('swagger-ui-express'),
+    swaggerDocument = jsyaml.safeLoad(spec);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', routes);
 
