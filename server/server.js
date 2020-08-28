@@ -16,7 +16,15 @@ const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-mongoose.connect('mongodb://localhost:27017/votos', { useNewUrlParser: true }).then(() => {
+const DB_PORT = process.env.DB_PORT || 27017;
+
+const DB_HOSTNAME = process.env.DB_HOSTNAME || "localhost";
+
+const DB_NAME = process.env.DB_NAME || "votos";
+
+const JWT_SECRET = process.env.JWT_SECRET || "secret123"
+
+mongoose.connect(`mongodb://${DB_HOSTNAME}:${DB_PORT}/${DB_NAME}`, { useNewUrlParser: true }).then(() => {
   console.log('Connected to the Database successfully')
 });
 
@@ -27,7 +35,7 @@ app.use(async (req, res, next) => {
   if (req.headers["x-access-token"]) {
     try {
       const accessToken = req.headers["x-access-token"];
-      const { userId, exp } = await jwt.verify(accessToken, process.env.JWT_SECRET);
+      const { userId, exp } = await jwt.verify(accessToken, JWT_SECRET);
       // If token has expired
       if (exp < Date.now().valueOf() / 1000) {
         return res.status(401).json({

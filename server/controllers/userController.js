@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 
 const { roles } = require('../roles')
 
+const JWT_SECRET = process.env.JWT_SECRET || "secret123"
+
 async function hashPassword(password) {
   return await bcrypt.hash(password, 10);
 }
@@ -51,7 +53,7 @@ exports.signup = async (req, res, next) => {
 
     const hashedPassword = await hashPassword(password);
     const newUser = new User({ email, password: hashedPassword, role: role || "basic" });
-    const accessToken = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
       expiresIn: "1d"
     });
     newUser.accessToken = accessToken;

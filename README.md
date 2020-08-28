@@ -11,7 +11,7 @@
 
 `docker run -d --name mongodb -p 27017:27017 -v /tmp/mongodb:/data mvertes/alpine-mongo`
 
-# To start use 
+# To start use
 `yarn start`
 
 #To init use postman
