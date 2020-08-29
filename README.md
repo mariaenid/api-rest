@@ -29,7 +29,7 @@ POST `http://localhost:3000/signup` send like params `email, password, role: [ad
 
 # Swagger:
 
-`http://localhost:4000/api-docs/`
+`http://localhost:3000/api-docs/`
 
 #Start with signup
 

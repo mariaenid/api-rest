@@ -21,6 +21,4 @@ ENV DB_HOSTNAME=${DB_HOSTNAME}
 
 ENV DB_NAME=${DB_NAME}
 
-EXPOSE PORT
-
 CMD [ "yarn", "start" ]

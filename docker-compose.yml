@@ -8,19 +8,21 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - redis
       - db
     environment:
       PORT: 3000
       DB_PORT: 27017
       DB_HOSTNAME: db
       DB_NAME: votos
-      JWT_SECRET: "$#GR24T4344$#$@#%WTEWTEAE%$6"
-
+      JWT_SECRET: secreto123
     links:
       - db
     depends_on:
       - db
   db:
-    image:
+    image: mvertes/alpine-mongo
+    volumes:
+    - /tmp/mongodb:/data
+    ports:
+      - "27017:27017"
 
